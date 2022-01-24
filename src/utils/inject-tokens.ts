@@ -1,3 +1,2 @@
 export const CREATOR = 'CREATOR'
 export const VERIFICATION_TOKEN = 'VERIFICATION_TOKEN'
-export const EMAIL_SERVICE = 'EMAIL_SERVICE'

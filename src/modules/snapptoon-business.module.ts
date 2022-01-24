@@ -3,6 +3,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { CreatorModule } from "./creator.module";
 import { ConfigModule } from "../config";
 import { RegisterModule } from "./register.module";
+import { AuthModule } from './auth.module'
 
 @Module({
     imports: [
@@ -12,10 +13,11 @@ import { RegisterModule } from "./register.module";
         }),
         CreatorModule,
         RegisterModule,
+        AuthModule,
     ],
     controllers: [],
     providers: []
 })
 
-export class AppModule {}
+export class SnapptoonBusinessModule {}
 
