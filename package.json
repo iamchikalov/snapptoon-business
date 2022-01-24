@@ -1,0 +1,46 @@
+{
+  "name": "@snapptoon/backend-common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -i dist/ -e ts,js -x ts-node ./src/main.ts",
+    "start": "nest start",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Daniil Sinelnik <danya.sinelnik@mail.ru> && Egor Frolov <egorforlovecom@gmail.com> :)",
+  "license": "ISC",
+  "dependencies": {
+    "@nestjs/cli": "^8.1.8",
+    "@nestjs/common": "^8.2.4",
+    "@nestjs/core": "^8.2.4",
+    "@nestjs/mongoose": "^9.0.2",
+    "@nestjs/platform-express": "^8.2.4",
+    "@nestjs/swagger": "^5.1.5",
+    "@sendgrid/mail": "^7.6.0",
+    "@snapptoon/backend-common": "^2.0.1",
+    "@typegoose/typegoose": "^9.5.0",
+    "bcrypt": "^5.0.1",
+    "mongoose": "^6.1.6",
+    "nanoid-generate": "^1.1.0",
+    "nodemailer": "^6.7.2",
+    "npm": "^7.24.2",
+    "reflect-metadata": "^0.1.13",
+    "swagger-ui-express": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "nodemon": "^2.0.15",
+    "typescript": "^4.5.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/snapptoon-crafting/snapptoon-business.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/snapptoon-crafting/snapptoon-business/issues"
+  },
+  "homepage": "https://gitlab.com/snapptoon-crafting/snapptoon-business#readme"
+}
