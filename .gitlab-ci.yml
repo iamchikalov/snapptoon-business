@@ -11,7 +11,7 @@ build_stage:
   services:
     - docker:dind
   only:
-    - dev
+    - main
   script:
     - docker build --tag=${CI_REGISTRY_IMAGE}:stage .
     - docker push ${CI_REGISTRY_IMAGE}:stage
@@ -22,7 +22,7 @@ build_production:
   services:
     - docker:dind
   only:
-    - main
+    - tags
   script:
     - docker build --tag=${CI_REGISTRY_IMAGE}:production .
     - docker push ${CI_REGISTRY_IMAGE}:production
