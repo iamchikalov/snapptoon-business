@@ -1,0 +1,44 @@
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+
+stages:
+  - build
+  - deploy
+
+build_stage:
+  stage: build
+  image: docker
+  services:
+    - docker:dind
+  only:
+    - dev
+  script:
+    - docker build --tag=${CI_REGISTRY_IMAGE}:stage .
+    - docker push ${CI_REGISTRY_IMAGE}:stage
+
+build_production:
+  stage: build
+  image: docker
+  services:
+    - docker:dind
+  only:
+    - main
+  script:
+    - docker build --tag=${CI_REGISTRY_IMAGE}:production .
+    - docker push ${CI_REGISTRY_IMAGE}:production
+
+deploy_stage:
+  stage: deploy
+  only:
+    - main
+  before_script:
+    - apt-get update -qq
+    - apt-get install -qq git
+    # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - ssh $SSH_URL 'echo "${{ secrets.PAT }}" | docker login registry.gitlab.com -p $CI_JOB_TOKEN; cd shantoop-compose; ls; docker-compose pull frontend; docker-compose stop -t 1 frontend; docker-compose up -d frontend;'
