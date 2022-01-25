@@ -41,4 +41,4 @@ deploy_stage:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - ssh $SSH_URL 'echo "${{ secrets.PAT }}" | docker login registry.gitlab.com -p $CI_JOB_TOKEN; cd shantoop-compose; ls; docker-compose pull frontend; docker-compose stop -t 1 frontend; docker-compose up -d frontend;'
+    - ssh lipsar@5.8.37.33 "echo ${CI_JOB_TOKEN}; docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} registry.gitlab.com; cd snaptoon-deployment; ls; docker-compose pull api; docker-compose stop -t 1 api; docker-compose up -d api"
