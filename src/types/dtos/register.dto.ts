@@ -4,7 +4,7 @@ import {UserRole} from '../enums';
 import { SocialLinks } from '@snapptoon/backend-common/src/data/models/SocialLinks'
 import { Inbox } from '@snapptoon/backend-common/src/data/models/Inbox'
 
-export class RegisterDto extends BaseDto{
+export class RegisterDto extends BaseDto {
     email: string
     password: string
     name: string

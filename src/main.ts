@@ -10,6 +10,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options)
   SwaggerModule.setup('swagger', app, document)
   await app.listen(ConfigModule.SERVER_PORT, ConfigModule.HOST);
-  console.log(`Server listening: ${ConfigModule.HOST}:${ConfigModule.SERVER_PORT}`)
+  console.log(`Server listening: http://${ConfigModule.HOST}:${ConfigModule.SERVER_PORT}`)
 }
 bootstrap();

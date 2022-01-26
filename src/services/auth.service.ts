@@ -3,6 +3,7 @@ import { CREATOR } from '../utils'
 import { BaseRepository } from '@snapptoon/backend-common/src/repositories/base.repository'
 import { Creator } from '@snapptoon/backend-common/src/data/models/Creator'
 import { JwtService } from '@nestjs/jwt'
+import { authDto } from '../types/dtos'
 
 @Injectable()
 export class AuthService {
@@ -13,15 +14,17 @@ export class AuthService {
 
   async validateUser (email: string, password: string) {
     const user = await this.repository.get({email})
-    if (user && user.password === password) {
-      const { password, ...result} = user
-      return result
+    console.log(user)
+    if (user && user.password === password && user.email == email) {
+      return user // TODO: make hashes comparable pass == hash
     }
     return null
   }
 
-  async login (user: any) {
-    const payload = { username: user.username, sub: user.userId }
+  async login (data: authDto) {
+    console.log(data.email, "\n" + data.password)
+    const user = await this.validateUser(data.email, data.password)
+    const payload = { email: user.email, password: user.password, type: user.type }
     return {
       access_token: this.jwtService.sign(payload)
     }

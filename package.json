@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon -i dist/ -e ts,js -x ts-node ./src/main.ts",
     "start": "nest start",
+    "start:debug": "nest start --debug --watch",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,7 +23,7 @@
     "@nestjs/platform-express": "^8.2.4",
     "@nestjs/swagger": "^5.1.5",
     "@sendgrid/mail": "^7.6.0",
-    "@snapptoon/backend-common": "^2.0.1",
+    "@snapptoon/backend-common": "^2.0.4",
     "@typegoose/typegoose": "^9.5.0",
     "bcrypt": "^5.0.1",
     "mongoose": "^6.1.6",
