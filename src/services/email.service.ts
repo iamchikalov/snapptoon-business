@@ -1,13 +1,13 @@
 import { Inject } from '@nestjs/common'
 import { VERIFICATION_TOKEN } from '../utils'
-const crypto = require('crypto')
 import { RegisterDto } from '../types/dtos'
 import { mailer } from '../utils'
 import { VerificationToken } from '@snapptoon/backend-common/src/data/models/verificationToken.model'
 import { BaseRepository } from '@snapptoon/backend-common/src/repositories/base.repository'
+import { VerificationTokenMapper } from '../mappers'
 
 export class EmailService {
-
+  tokenMapper = new VerificationTokenMapper()
   constructor (
     @Inject(VERIFICATION_TOKEN) private repository: BaseRepository<VerificationToken>
   ) {}
@@ -17,12 +17,10 @@ export class EmailService {
     verifyUrl: string
   ): Promise<void> {
     try {
-      const token = await this.repository.create(
-        {
-          user: creator._id,
-          value: crypto.randomBytes(16).toString('hex')
-        }
-      )
+      console.log(creator._id)
+      const token = await this.repository.create(this.tokenMapper.toDomain(creator))
+      console.log(token.value)
+      console.log(token.creatorId)
 
       const subject = 'Account Verification Token'
       const to = creator.email

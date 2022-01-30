@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common'
-import { MongooseModule } from '@nestjs/mongoose'
 import { VerificationToken, VerificationTokenSchema } from '@snapptoon/backend-common/src/data/models/verificationToken.model'
 import { EmailService } from '../services'
-import { VERIFICATION_TOKEN, providerAggregation } from '../utils'
+import { VERIFICATION_TOKEN, providerAggregation, dbAggregation } from '../utils'
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: VerificationToken.name, schema: VerificationTokenSchema }])
+    dbAggregation(VerificationToken, VerificationTokenSchema),
   ],
   providers: [
     EmailService,
