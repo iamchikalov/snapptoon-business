@@ -41,23 +41,18 @@ export class RegisterService {
 
     async verifyAccount (token: VerificationTokenDto) {
       const verificationToken = await this.tokenRepository.get({value: token.value})
-      console.log(verificationToken.value)
-      console.log(token)
       if (token.value === verificationToken.value) {
         const user = await this.repository.get({creator: verificationToken.creatorId})
-        console.log("Token from database: " + verificationToken.value)
-        console.log("Token from request: " + token.value)
-        console.log("Expected userId: " + user._id)
-        console.log("Actual userId: " + verificationToken.creatorId)
         user.isVerified = true
         await this.repository.update({ email: user.email }, { isVerified: user.isVerified} )
+        await this.tokenRepository.delete({value: token.value})
       } else {
-        console.log('Out of condition')
+        return customError.TOKEN_DOES_NOT_EXIST()
       }
     }
 
     private async existByEmail(email: string) {
       const data = await this.repository.get({ email })
-      return data == null;
+      return data == null
     }
 }

@@ -17,11 +17,7 @@ export class EmailService {
     verifyUrl: string
   ): Promise<void> {
     try {
-      console.log(creator._id)
       const token = await this.repository.create(this.tokenMapper.toDomain(creator))
-      console.log(token.value)
-      console.log(token.creatorId)
-
       const subject = 'Account Verification Token'
       const to = creator.email
       const from = process.env.FROM_EMAIL
