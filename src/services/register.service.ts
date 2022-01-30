@@ -44,12 +44,13 @@ export class RegisterService {
       console.log(verificationToken.value)
       console.log(token)
       if (token.value === verificationToken.value) {
-        const user = await this.repository.get({creator: verificationToken.creator})
+        const user = await this.repository.get({creator: verificationToken.creatorId})
         console.log("Token from database: " + verificationToken.value)
         console.log("Token from request: " + token.value)
         console.log("Expected userId: " + user._id)
-        console.log("Actual userId: " + verificationToken.creator)
+        console.log("Actual userId: " + verificationToken.creatorId)
         user.isVerified = true
+        await this.repository.update({ email: user.email }, { isVerified: user.isVerified} )
       } else {
         console.log('Out of condition')
       }

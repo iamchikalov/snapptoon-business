@@ -9,6 +9,11 @@ export const customError = {
   INVALID_EMAIL: () => new ExtendableError({
     message: 'INVALID EMAIL',
     code: 400
+  }),
+
+  INVALID_PASSWORD: () => new ExtendableError({
+    message: 'INVALID EMAIL OR PASSWORD',
+    code: 403
   })
 
 }

@@ -4,6 +4,8 @@ import { BaseRepository } from '@snapptoon/backend-common/src/repositories/base.
 import { Creator } from '@snapptoon/backend-common/src/data/models/Creator'
 import { JwtService } from '@nestjs/jwt'
 import { authDto } from '../types/dtos'
+import { customError } from '../errors/custom.error'
+const bcrypt = require('bcrypt')
 
 @Injectable()
 export class AuthService {
@@ -14,19 +16,26 @@ export class AuthService {
 
   async validateUser (email: string, password: string) {
     const user = await this.repository.get({email})
-    console.log(user)
-    if (user && user.password === password && user.email == email) {
-      return user // TODO: make hashes comparable pass == hash
+    const isValidPassword = await bcrypt.compare(password, user.password)
+    if (isValidPassword && user) {
+      return user
     }
     return null
   }
 
+
   async login (data: authDto) {
-    console.log(data.email, "\n" + data.password)
     const user = await this.validateUser(data.email, data.password)
-    const payload = { email: user.email, password: user.password, type: user.type }
+    if (user == null) {
+      return customError.INVALID_PASSWORD()
+    }
+
+    const accessToken = { email: user.email, type: user.type }
+    const refreshToken = { email: user.email, name: user.name }
+
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(accessToken),
+      refresh_token: this.jwtService.sign(refreshToken)
     }
   }
 

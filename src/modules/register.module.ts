@@ -1,9 +1,8 @@
 import { Module } from "@nestjs/common";
-import { MongooseModule } from '@nestjs/mongoose'
 import { Creator, CreatorSchema } from '@snapptoon/backend-common/src/data/models/Creator'
 import { RegisterController } from '../controllers';
 import { RegisterService } from '../services';
-import { CREATOR, providerAggregation, VERIFICATION_TOKEN } from '../utils'
+import { CREATOR, dbAggregation, providerAggregation, VERIFICATION_TOKEN } from '../utils'
 import { EmailModule } from './email.module'
 import {
   VerificationToken,
@@ -13,8 +12,8 @@ import {
 @Module({
     imports: [
         EmailModule,
-        MongooseModule.forFeature([{ name: Creator.name, schema: CreatorSchema }]),
-        MongooseModule.forFeature([{ name: VerificationToken.name, schema: VerificationTokenSchema}] )
+        dbAggregation(Creator, CreatorSchema),
+        dbAggregation(VerificationToken, VerificationTokenSchema),
     ],
     controllers: [RegisterController],
     providers: [

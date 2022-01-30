@@ -3,9 +3,8 @@ import { AuthService } from '../services'
 import { LocalStrategy } from '../services/strategies/local.strategy'
 import { PassportModule } from '@nestjs/passport'
 import { JwtModule } from '@nestjs/jwt'
-import { AUTH_SECRET_KEY, CREATOR, providerAggregation } from '../utils'
+import { AUTH_SECRET_KEY, CREATOR, dbAggregation, providerAggregation } from '../utils'
 import { Creator, CreatorSchema } from '@snapptoon/backend-common/src/data/models/Creator'
-import { MongooseModule } from '@nestjs/mongoose'
 import { AuthController } from '../controllers'
 
 @Module({
@@ -13,9 +12,9 @@ import { AuthController } from '../controllers'
     PassportModule,
     JwtModule.register({
       secret: AUTH_SECRET_KEY,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '2d' },
     }),
-    MongooseModule.forFeature([{name: Creator.name, schema: CreatorSchema}])
+    dbAggregation(Creator, CreatorSchema),
   ],
   providers: [
     providerAggregation(CREATOR, Creator),
