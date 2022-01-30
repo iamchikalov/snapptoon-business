@@ -8,7 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(SnapptoonBusinessModule);
   const options = new DocumentBuilder().build()
   const document = SwaggerModule.createDocument(app, options)
-  SwaggerModule.setup('swagger', app, document)
+  SwaggerModule.setup('api-docs', app, document)
   await app.listen(ConfigModule.SERVER_PORT, ConfigModule.HOST);
   console.log(`Server listening: http://${ConfigModule.HOST}:${ConfigModule.SERVER_PORT}`)
 }
