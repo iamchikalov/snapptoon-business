@@ -29,5 +29,15 @@ export const customError = {
   DIFFERENT_PASSWORDS: () => new ExtendableError({
     message: 'PASSWORDS ARE NOT SAME',
     code: 400
+  }),
+
+  CURRENT_PASSWORD_ERR0R: () => new ExtendableError({
+    message: 'CURRENT PASSWORD IS INCORRECT',
+    code: 400
+  }),
+
+  SAME_PASSWORDS_ERROR: () => new ExtendableError({
+    message: 'CANNOT CHANGE SET NEW PASSWORD AS OLD PASSWORD',
+    code: 403
   })
 }

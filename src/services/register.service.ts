@@ -29,9 +29,7 @@ export class RegisterService {
       const user = await this.existByEmail(doc.email)
 
       if (!user) {
-        return {
-          error: customError.EMAIL_EXIST()
-        }
+        return customError.EMAIL_EXIST()
       }
       doc.password = await bcrypt.hash(doc.password, SALT_ROUNDS)
       const created = await this.repository.create(this.registerMapper.toDomain(doc))

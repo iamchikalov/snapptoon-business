@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common"
 import { MongooseModule } from "@nestjs/mongoose";
-import { CreatorModule } from "./creator.module";
 import { ConfigModule } from "../config";
 import { RegisterModule } from "./register.module";
 import { AuthModule } from './auth.module'
+import { UserModule } from './user.module'
 
 @Module({
     imports: [
@@ -11,9 +11,9 @@ import { AuthModule } from './auth.module'
             useUnifiedTopology: true,
             useNewUrlParser: true,
         }),
-        CreatorModule,
         RegisterModule,
         AuthModule,
+        UserModule
     ],
     controllers: [],
     providers: []
