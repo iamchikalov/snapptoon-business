@@ -1,12 +1,15 @@
 import { changePasswordComparator, comparePasswords, CREATOR, isValidEmail, SALT_ROUNDS } from '../utils'
-import { Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { BaseRepository } from '@snapptoon/backend-common/src/repositories/base.repository'
 import { Creator } from '@snapptoon/backend-common/src/data/models/Creator'
 import { customError } from '../errors/custom.error'
-const bcrypt = require('bcrypt')
 import { UserDto } from '../types/dtos'
+import { UserProfileMapper } from "../mappers/user-profile.mapper";
+const bcrypt = require('bcrypt')
 
+@Injectable()
 export class UserService {
+  userProfileMapper = new UserProfileMapper()
   constructor (
     @Inject(CREATOR) private readonly repository: BaseRepository<Creator>
   ) {}
@@ -26,9 +29,7 @@ export class UserService {
     return await this.repository.update({ email: oldEmail }, { email: newEmail })
   }
 
-  async changePassword (
-    data: UserDto
-    ) {
+  async changePassword (data: UserDto) {
     if (!isValidEmail(data.email)) {
       return customError.INVALID_EMAIL()
     }
@@ -54,10 +55,13 @@ export class UserService {
     return await this.repository.update({email: user.email}, {password: data.newPassword})
   }
 
+  async getUser (id: string) {
+    const user = await this.repository.get({_id: id})
+    return this.userProfileMapper.toDTO(user)
+  }
 
-  private async existByEmail(email: string) {
+  private async existByEmail (email: string) {
     const data = await this.repository.get({ email })
     return data == null
   }
-
 }

@@ -23,5 +23,4 @@ export class AuthController {
   async resetPassword(@Body() token: SetPasswordDto) {
     return await this.service.resetPassword(token)
   }
-
 }

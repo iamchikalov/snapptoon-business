@@ -7,7 +7,7 @@ import {RegisterDto, VerificationTokenDto} from '../types/dtos';
 export class RegisterController {
     constructor(
         private service: RegisterService
-    ) { }
+    ) {}
 
     @Post('/api/register')
     async register(@Body() registerDTO: RegisterDto, @Request() request) {
