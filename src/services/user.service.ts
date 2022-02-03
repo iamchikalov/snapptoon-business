@@ -59,17 +59,13 @@ export class UserService {
     return await this.repository.update({email: user.email}, {password: data.newPassword})
   }
 
-  async findOne(data: UserDto){
-    const user = await this.repository.get(data._id)
+  async getUser (id: string) {
+    const user = await this.repository.get({_id: id})
     return this.userProfileMapper.toDTO(user)
   }
 
-  private async existByEmail(email: string) {
+  private async existByEmail (email: string) {
     const data = await this.repository.get({ email })
     return data == null
   }
-
-
-
-
 }

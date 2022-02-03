@@ -18,8 +18,8 @@ export class UserController {
     return await this.service.changePassword(data)
   }
 
-  @Get('/api/get-data/:id')
+  @Get('/api/get-user-data/:id')
   async findOne(@Param('id') id){
-    return this.service.findOne(id);
+    return this.service.getUser(id);
   }
 }
