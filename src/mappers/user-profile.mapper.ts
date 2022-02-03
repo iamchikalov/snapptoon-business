@@ -1,6 +1,6 @@
-import { Mapper } from "../types/interfaces";
-import { UserDto } from "../types/dtos";
-import { Creator } from "@snapptoon/backend-common/src/data/models/Creator";
+import { Mapper } from "../types/interfaces"
+import { UserDto } from "../types/dtos"
+import { Creator } from "@snapptoon/backend-common/src/data/models/Creator"
 
 export class UserProfileMapper implements Mapper<Creator> {
     toDomain(dto: UserDto): Creator {

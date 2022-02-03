@@ -1,5 +1,5 @@
 import { changePasswordComparator, comparePasswords, CREATOR, isValidEmail, SALT_ROUNDS } from '../utils'
-import {Inject, Injectable, Req} from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { BaseRepository } from '@snapptoon/backend-common/src/repositories/base.repository'
 import { Creator } from '@snapptoon/backend-common/src/data/models/Creator'
 import { customError } from '../errors/custom.error'
@@ -59,15 +59,17 @@ export class UserService {
     return await this.repository.update({email: user.email}, {password: data.newPassword})
   }
 
+  async findOne(data: UserDto){
+    const user = await this.repository.get(data._id)
+    return this.userProfileMapper.toDTO(user)
+  }
+
   private async existByEmail(email: string) {
     const data = await this.repository.get({ email })
     return data == null
   }
 
-  findOne(data: UserDto){
-    const user = this.repository.get(data._id)
-    return this.userProfileMapper.toDTO(user)
-  }
+
 
 
 }

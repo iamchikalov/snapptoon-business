@@ -1,7 +1,7 @@
 import { BaseDto } from './base.dto'
-import { Asset } from '@nestjs/cli/lib/configuration'
 import { SocialLinks } from '@snapptoon/backend-common/src/data/models/SocialLinks'
 import { Inbox } from '@snapptoon/backend-common/src/data/models/Inbox'
+import { Asset } from '@snapptoon/backend-common/src/data/models/Asset'
 
 export class UserDto extends BaseDto {
   password?: string
