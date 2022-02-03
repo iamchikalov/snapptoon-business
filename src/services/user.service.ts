@@ -4,10 +4,8 @@ import { BaseRepository } from '@snapptoon/backend-common/src/repositories/base.
 import { Creator } from '@snapptoon/backend-common/src/data/models/Creator'
 import { customError } from '../errors/custom.error'
 import { UserDto } from '../types/dtos'
-import {UserProfileMapper} from "../mappers/user-profile.mapper";
-
+import { UserProfileMapper } from "../mappers/user-profile.mapper";
 const bcrypt = require('bcrypt')
-
 
 @Injectable()
 export class UserService {

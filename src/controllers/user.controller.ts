@@ -1,5 +1,5 @@
 import { UserService } from '../services'
-import {Body, Controller, Get, Param, Patch} from '@nestjs/common'
+import { Body, Controller, Get, Param, Patch } from '@nestjs/common'
 import { UserDto } from '../types/dtos'
 
 @Controller()
@@ -19,7 +19,7 @@ export class UserController {
   }
 
   @Get('/api/get-user-data/:id')
-  async findOne(@Param('id') id){
+  async getUser(@Param('id') id){
     return this.service.getUser(id);
   }
 }
