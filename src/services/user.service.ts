@@ -29,9 +29,7 @@ export class UserService {
     return await this.repository.update({ email: oldEmail }, { email: newEmail })
   }
 
-  async changePassword (
-    data: UserDto
-    ) {
+  async changePassword (data: UserDto) {
     if (!isValidEmail(data.email)) {
       return customError.INVALID_EMAIL()
     }
