@@ -1,8 +1,8 @@
 import { BaseDto } from './base.dto'
 import { SocialLinks } from '@snapptoon/backend-common/src/data/models/SocialLinks'
 import { Inbox } from '@snapptoon/backend-common/src/data/models/Inbox'
+import { ApiProperty } from '@nestjs/swagger'
 import { Asset } from '@snapptoon/backend-common/src/data/models/Asset'
-import {ApiProperty} from "@nestjs/swagger";
 
 export class UserDto extends BaseDto {
   @ApiProperty()

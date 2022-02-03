@@ -21,9 +21,7 @@ export class RegisterService {
 
     async createAccount (doc: RegisterDto, verificationLink: string) {
       if (!isValidEmail(doc.email)) {
-        return {
-          error: customError.INVALID_EMAIL()
-        }
+        return customError.INVALID_EMAIL()
       }
 
       const user = await this.existByEmail(doc.email)
