@@ -17,7 +17,7 @@ const bcrypt = require('bcrypt')
 export class UserService {
   userProfileMapper = new UserProfileMapper()
   constructor (
-    @Inject(CREATOR) private readonly repository: BaseRepository<Creator>
+    @Inject(CREATOR) private readonly repository: BaseRepository<Creator>,
   ) {}
 
   async changeEmail (
@@ -67,14 +67,14 @@ export class UserService {
     return await this.repository.update({email: user.email}, {password: data.newPassword})
   }
 
-  async getUserByToken ( {access_token}: {access_token: string} ) {
+  async getUserByToken ({access_token}: {access_token: string}) {
     const decode_token: {email: string} = await jwtDecode(access_token)
     const user_email = decode_token.email
     const user = await this.repository.get({email: user_email})
     return this.userProfileMapper.toDTO(user)
   }
 
-  async changeUserData (id: string, userDto: UserDto){
+  async changeUserData (id: string, userDto: UserDto) {
     const user = await this.repository.get({_id: id})
     if (user == null) {
       throw new HttpException('CANNOT FIND SUCH USER WITH PROVIDED _id', HttpStatus.NOT_FOUND)
