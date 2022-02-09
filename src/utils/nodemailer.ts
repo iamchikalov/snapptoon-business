@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 
 export async function mailer(from, to, subject, link, html){
   let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
+    host: "smtp.gmail.com",
     port: 587,
     secure: false,
     auth: {
