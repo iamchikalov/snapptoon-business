@@ -23,7 +23,7 @@
     "@nestjs/platform-express": "^8.2.4",
     "@nestjs/swagger": "^5.1.5",
     "@sendgrid/mail": "^7.6.0",
-    "@snapptoon/backend-common": "2.1.19",
+    "@snapptoon/backend-common": "2.1.21",
     "@typegoose/typegoose": "^9.5.0",
     "@types/node": "^16.0.0",
     "bcrypt": "^5.0.1",

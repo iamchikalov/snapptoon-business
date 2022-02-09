@@ -20,7 +20,7 @@ export class EmailService {
       const token = await this.repository.create(this.tokenMapper.toDomain(creator))
       const subject = 'Account Verification Token'
       const to = creator.email
-      const from = process.env.FROM_EMAIL
+      const from = 'test.snapptoon@gmail.com'
       const link = verifyUrl + token.value
       const html = `<p>Hi ${creator.email}<p><br><p>Please click on the following <a href="${link}">link</a> to verify your account.</p>
              <br><p>If you did not request this, please ignore this email.</p>`
