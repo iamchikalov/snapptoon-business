@@ -32,6 +32,11 @@ export class UserService {
     if (await this.existByEmail(oldEmail)) {
       throw new HttpException('EMAIL DOES NOT EXIST', HttpStatus.NOT_FOUND)
     }
+
+    if (await this.existByEmail(newEmail)) {
+      throw new HttpException('THIS EMAIL ALREADY IN USE', HttpStatus.FORBIDDEN)
+    }
+
     return await this.repository.update({ email: oldEmail }, { email: newEmail })
   }
 
