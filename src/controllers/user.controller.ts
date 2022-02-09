@@ -1,5 +1,5 @@
 import { UserService } from '../services'
-import { Body, Controller, Get, Param, Patch } from '@nestjs/common'
+import {Body, Controller, Get, Param, Patch, Put, Res} from '@nestjs/common'
 import { UserDto } from '../types/dtos'
 
 @Controller()
@@ -21,5 +21,17 @@ export class UserController {
   @Get('/api/get-user-data/:id')
   async getUser(@Param('id') id){
     return this.service.getUser(id);
+  }
+
+  @Put('/api/change-user-data/:id')
+  async changeUserData(
+      @Param('id') id,
+      @Res() res,
+      @Body() userDto: UserDto
+  )
+  {
+    console.log(userDto)
+
+    return await this.service.changeUserData(id, userDto)
   }
 }

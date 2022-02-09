@@ -60,6 +60,16 @@ export class UserService {
     return this.userProfileMapper.toDTO(user)
   }
 
+  async changeUserData (id: string, userDto: UserDto){
+    const user = await this.repository.get({_id: id})
+    console.log(user)
+    console.log(userDto)
+    user.name = userDto.name
+    user.logo = userDto.logo
+    user.description = userDto.description
+    return await this.repository.save(user)
+  }
+
   private async existByEmail (email: string) {
     const data = await this.repository.get({ email })
     return data == null
