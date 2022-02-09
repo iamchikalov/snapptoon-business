@@ -20,6 +20,6 @@ export class UserController {
 
   @Get('/api/get-user-data')
   async getUser(@Headers() access_token ){
-    return this.service.getUser(access_token)
+    return this.service.getUserByToken(access_token)
   }
 }
