@@ -1,10 +1,17 @@
-import { changePasswordComparator, comparePasswords, CREATOR, isValidEmail, SALT_ROUNDS } from '../utils'
+import {
+  changePasswordComparator,
+  comparePasswords,
+  isValidEmail,
+  CREATOR,
+  SALT_ROUNDS
+} from '../utils'
 import { Inject, Injectable } from '@nestjs/common'
 import { BaseRepository } from '@snapptoon/backend-common/src/repositories/base.repository'
 import { Creator } from '@snapptoon/backend-common/src/data/models/Creator'
 import { customError } from '../errors/custom.error'
 import { UserDto } from '../types/dtos'
-import { UserProfileMapper } from "../mappers/user-profile.mapper";
+import { UserProfileMapper } from "../mappers/user-profile.mapper"
+import jwtDecode from "jwt-decode"
 const bcrypt = require('bcrypt')
 
 @Injectable()
@@ -55,8 +62,10 @@ export class UserService {
     return await this.repository.update({email: user.email}, {password: data.newPassword})
   }
 
-  async getUser (id: string) {
-    const user = await this.repository.get({_id: id})
+  async getUser ( {access_token}: {access_token: string} ) {
+    const decode_token: {email: string} = await jwtDecode(access_token)
+    const user_email = decode_token.email
+    const user = await this.repository.get({email: user_email})
     return this.userProfileMapper.toDTO(user)
   }
 

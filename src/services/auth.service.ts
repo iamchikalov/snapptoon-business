@@ -41,7 +41,7 @@ export class AuthService {
     }
   }
 
-  async sendRecoveryEmail(email: string, verifyUrl) {
+  async sendRecoveryEmail (email: string, verifyUrl) {
     const user = await this.repository.get({ email })
     if (!user) {
       return customError.EMAIL_DOES_NOT_EXIST()
@@ -66,7 +66,7 @@ export class AuthService {
     }
   }
 
-  async resetPassword(recoveryDto: SetPasswordDto) {
+  async resetPassword (recoveryDto: SetPasswordDto) {
     const token = await this.tokenRepository.get({ value: recoveryDto.tokenValue })
     if (!token) {
       return customError.TOKEN_DOES_NOT_EXIST()

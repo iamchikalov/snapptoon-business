@@ -1,8 +1,8 @@
 import { Mapper } from '../types/interfaces'
 import { RegisterDto, VerificationTokenDto } from '../types/dtos'
-const crypto = require('crypto')
 import { VerificationToken } from '@snapptoon/backend-common/src/data/models/verificationToken.model'
 import { makeId } from '../utils'
+const crypto = require('crypto')
 
 export class VerificationTokenMapper implements Mapper<VerificationToken> {
   toDomain(dto: RegisterDto): VerificationToken {
