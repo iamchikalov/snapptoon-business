@@ -10,7 +10,7 @@ import { BaseRepository } from '@snapptoon/backend-common/src/repositories/base.
 import { Creator } from '@snapptoon/backend-common/src/data/models/Creator'
 import { UserDto } from '../types/dtos'
 import { UserProfileMapper } from "../mappers/user-profile.mapper"
-import jwtDecode from "jwt-decode"
+import jwtDecode from 'jwt-decode'
 const bcrypt = require('bcrypt')
 
 @Injectable()
@@ -72,6 +72,14 @@ export class UserService {
     const user_email = decode_token.email
     const user = await this.repository.get({email: user_email})
     return this.userProfileMapper.toDTO(user)
+  }
+
+  async changeUserData (id: string, userDto: UserDto){
+    const user = await this.repository.get({_id: id})
+    if (user == null) {
+      throw new HttpException('CANNOT FIND SUCH USER WITH PROVIDED _id', HttpStatus.NOT_FOUND)
+    }
+    return await this.repository.updateRaw({ _id: user._id }, userDto, userDto)
   }
 
   private async existByEmail (email: string) {
