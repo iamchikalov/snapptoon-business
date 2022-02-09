@@ -40,7 +40,7 @@ export class AuthService {
     }
   }
 
-  async sendRecoveryEmail(email: string, verifyUrl) {
+  async sendRecoveryEmail (email: string, verifyUrl) {
     const user = await this.repository.get({ email })
     if (!user) {
       throw new HttpException('EMAIL DOES NOT EXIST', HttpStatus.NOT_FOUND)
@@ -65,7 +65,7 @@ export class AuthService {
     }
   }
 
-  async resetPassword(recoveryDto: SetPasswordDto) {
+  async resetPassword (recoveryDto: SetPasswordDto) {
     const token = await this.tokenRepository.get({ value: recoveryDto.tokenValue })
     if (!token) {
       throw new HttpException('TOKEN DOES NOT EXIST', HttpStatus.NOT_FOUND)
