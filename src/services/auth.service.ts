@@ -54,7 +54,7 @@ export class AuthService {
     try {
       const subject = 'Account password reset'
       const to = user.email
-      const from = process.env.FROM_EMAIL
+      const from = 'test.snapptoon@gmail.com'
       const link = verifyUrl + token.value
       const html = `<p>Hi ${user.email}<p><br><p>Please click on the following <a href="${link}">link</a> reset password.</p>
              <br><p>If you did not request this, please ignore this email.</p>`
