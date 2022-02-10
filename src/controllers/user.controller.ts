@@ -1,5 +1,5 @@
 import { UserService } from '../services'
-import { Body, Controller, Get, Patch } from '@nestjs/common'
+import { Body, Controller, Get, Param, Patch } from '@nestjs/common'
 import { UserDto } from '../types/dtos'
 
 @Controller()
@@ -18,8 +18,8 @@ export class UserController {
     return await this.service.changePassword(data)
   }
 
-  @Get('/api/get-user-data')
-  async getUser (@Body('access_token') token: string) {
+  @Get('/api/get-user-data/:token')
+  async getUser (@Param('token') token: string) {
     return await this.service.getUserByToken(token)
   }
 
