@@ -69,9 +69,13 @@ export class UserService {
   }
 
   async getUserByToken (token: string) {
-    const object: TokenDto = jwtDecode(token)
-    const user = await this.repository.get({email: object.email})
-    return this.userProfileMapper.toDTO(user)
+    try {
+      const object: TokenDto = await jwtDecode(token)
+      const user = await this.repository.get({email: object.email})
+      return this.userProfileMapper.toDTO(user)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   async changeUserData (id: string, userDto: UserDto) {
