@@ -31,6 +31,10 @@ export class AuthService {
       throw new HttpException('INVALID PASSWORD', HttpStatus.FORBIDDEN)
     }
 
+    if (user.isVerified == false) {
+      throw new HttpException('USER HAS UNVERIFIED ACCOUNT', HttpStatus.FORBIDDEN)
+    }
+
     const accessToken = { _id: user._id, email: user.email, type: user.type }
     const refreshToken = { email: user.email, name: user.name }
 

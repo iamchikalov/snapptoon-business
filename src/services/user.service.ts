@@ -68,7 +68,7 @@ export class UserService {
   }
 
   async getUserByToken ({access_token}: {access_token: string}) {
-    const decode_token: {email: string} = await jwtDecode(access_token)
+    const decode_token: {email: string} = jwtDecode(access_token)
     const user_email = decode_token.email
     const user = await this.repository.get({email: user_email})
     return this.userProfileMapper.toDTO(user)
