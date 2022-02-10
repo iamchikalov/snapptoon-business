@@ -1,5 +1,5 @@
 import { UserService } from '../services'
-import { Body, Controller, Get, Headers, Param, Patch } from '@nestjs/common'
+import { Body, Controller, Get, Patch } from '@nestjs/common'
 import { UserDto } from '../types/dtos'
 
 @Controller()
@@ -19,12 +19,12 @@ export class UserController {
   }
 
   @Get('/api/get-user-data')
-  async getUser (@Headers('access_token') token: string) {
+  async getUser (@Body('access_token') token: string) {
     return await this.service.getUserByToken(token)
   }
 
-  @Patch('/api/change-user-data/:id')
-  async changeUserData (@Param('id') id, @Body() userDto: UserDto) {
-    return await this.service.changeUserData(id, userDto)
+  @Patch('/api/change-user-data')
+  async changeUserData (@Body() userDto: UserDto) {
+    return await this.service.changeUserData(userDto)
   }
 }

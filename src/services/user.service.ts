@@ -71,19 +71,21 @@ export class UserService {
   async getUserByToken (token: string) {
     try {
       const object: TokenDto = await jwtDecode(token)
-      const user = await this.repository.get({email: object.email})
+      const user = await this.repository.get({_id: object._id})
       return this.userProfileMapper.toDTO(user)
     } catch (e) {
-      console.log(e)
+      throw new HttpException(e, HttpStatus.BAD_REQUEST)
     }
   }
 
-  async changeUserData (id: string, userDto: UserDto) {
-    const user = await this.repository.get({_id: id})
-    if (user == null) {
-      throw new HttpException('CANNOT FIND SUCH USER WITH PROVIDED _id', HttpStatus.NOT_FOUND)
+  async changeUserData (userDto: UserDto) {
+    try {
+      const object: TokenDto = await jwtDecode(userDto.access_token)
+      const user = await this.repository.get({_id: object._id})
+      return await this.repository.updateRaw({ _id: user._id }, userDto, userDto)
+    } catch (e) {
+      throw new HttpException('TOKEN WAS DAMAGED', HttpStatus.I_AM_A_TEAPOT)
     }
-    return await this.repository.updateRaw({ _id: user._id }, userDto, userDto)
   }
 
   private async existByEmail (email: string) {

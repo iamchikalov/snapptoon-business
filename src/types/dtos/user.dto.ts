@@ -6,6 +6,8 @@ import { Asset } from '@snapptoon/backend-common/src/data/models/Asset'
 
 export class UserDto extends BaseDto {
   @ApiProperty()
+  access_token?: string
+  @ApiProperty()
   password?: string
   @ApiProperty()
   newPassword?: string
