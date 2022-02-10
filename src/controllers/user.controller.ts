@@ -19,8 +19,7 @@ export class UserController {
   }
 
   @Get('/api/get-user-data')
-  // @UseGuards(JwtAuthGuard)
-  async getUser (@Headers() token){
+  async getUser (@Headers('access_token') token: string) {
     return await this.service.getUserByToken(token)
   }
 
