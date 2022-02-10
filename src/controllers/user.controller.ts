@@ -19,8 +19,9 @@ export class UserController {
   }
 
   @Get('/api/get-user-data')
-  async getUser (@Headers() access_token){
-    return await this.service.getUserByToken(access_token)
+  // @UseGuards(JwtAuthGuard)
+  async getUser (@Headers() token){
+    return await this.service.getUserByToken(token)
   }
 
   @Patch('/api/change-user-data/:id')
