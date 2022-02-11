@@ -39,7 +39,7 @@ export class RegisterService {
       if (token.value === verificationToken.value) {
         const user = await this.repository.get({creator: verificationToken.creatorId})
         user.isVerified = true
-        await this.repository.update({ email: user.email }, { isVerified: user.isVerified} )
+        await this.repository.update({ email: user.email }, { isVerified: user.isVerified } )
         await this.tokenRepository.delete({value: token.value})
       } else {
         throw new HttpException('TOKEN DOES NOT EXIST', HttpStatus.NOT_FOUND)
