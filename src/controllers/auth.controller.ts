@@ -15,7 +15,8 @@ export class AuthController {
 
   @Post('/api/send-recovery-email')
   async recoveryEmail(@Body() user: authDto, @Request() request) {
-    const verifyUrl = `${request.protocol}://${request.header.host}/api/recovery-password/`
+    const verifyUrl = `${request.protocol}://${request.hostname}/recovery-password/`
+    console.log(verifyUrl)
     return await this.service.sendRecoveryEmail(user.email, verifyUrl)
   }
 
