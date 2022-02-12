@@ -26,6 +26,7 @@ export class EmailService {
              <br><p>If you did not request this, please ignore this email.</p>`
 
       await mailer(from, to, subject, link, html)
+      console.log('Email has been sent')
     } catch (err) {
       throw new Error(`Problem with nodeMailer service: ${err.message}`)
     }
