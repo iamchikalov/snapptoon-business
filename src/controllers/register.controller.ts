@@ -1,6 +1,7 @@
 import { Body, Request, Controller, Post, Patch } from '@nestjs/common'
 import {RegisterService} from '../services';
 import {RegisterDto, VerificationTokenDto} from '../types/dtos';
+import { VERIFY_URL } from '../utils'
 
 
 @Controller()
@@ -11,7 +12,7 @@ export class RegisterController {
 
     @Post('/api/register')
     async register(@Body() registerDTO: RegisterDto, @Request() request) {
-      const verificationLink = `${request.protocol}://${request.headers.hostname}/verify-account/`
+      const verificationLink = `${VERIFY_URL}/verify-account/`
       console.log(verificationLink)
       return await this.service.createAccount(registerDTO, verificationLink)
     }

@@ -1,6 +1,7 @@
 import { Controller, Post, Body, Request, Patch } from '@nestjs/common'
 import { AuthService } from '../services'
 import { authDto, SetPasswordDto } from '../types/dtos'
+import { VERIFY_URL } from '../utils'
 
 @Controller()
 export class AuthController {
@@ -15,9 +16,9 @@ export class AuthController {
 
   @Post('/api/send-recovery-email')
   async recoveryEmail(@Body() user: authDto, @Request() request) {
-    const verifyUrl = `${request.protocol}://${request.hostname}/recovery-password/`
-    console.log(verifyUrl)
-    return await this.service.sendRecoveryEmail(user.email, verifyUrl)
+    const verificationLink = `${VERIFY_URL}/recovery-password/`
+    console.log(verificationLink)
+    return await this.service.sendRecoveryEmail(user.email, verificationLink)
   }
 
   @Patch('/api/recovery-password')
