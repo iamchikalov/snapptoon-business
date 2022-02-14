@@ -17,6 +17,8 @@ export class RegisterMapper implements Mapper<Creator> {
         creator.type = UserRole.CREATOR
         creator.links = dto.links
         creator.notifications = dto.notifications
+        creator.createdAt = new Date()
+        creator.updatedAt = new Date()
 
         return creator
     }
