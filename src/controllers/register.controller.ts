@@ -13,7 +13,6 @@ export class RegisterController {
     @Post('/api/register')
     async register(@Body() registerDTO: RegisterDto, @Request() request) {
       const verificationLink = `${VERIFY_URL}/verify-account/`
-      console.log(verificationLink)
       return await this.service.createAccount(registerDTO, verificationLink)
     }
 
