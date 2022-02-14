@@ -37,7 +37,7 @@ export class RegisterService {
     async verifyAccount (token: VerificationTokenDto) {
       const verificationToken = await this.tokenRepository.get({value: token.value})
       if (token.value === verificationToken.value) {
-        const user = await this.repository.get({creator: verificationToken.creatorId})
+        const user = await this.repository.get({ _id: verificationToken.creatorId })
         user.isVerified = true
         await this.repository.update({ email: user.email }, { isVerified: user.isVerified } )
         await this.tokenRepository.delete({value: token.value})
