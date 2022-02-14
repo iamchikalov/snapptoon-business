@@ -64,7 +64,6 @@ export class AuthService {
              <br><p>If you did not request this, please ignore this email.</p>`
 
       await mailer(from, to, subject, link, html)
-      console.log('Email has been sent')
     } catch (e) {
       throw new Error(`Problem with nodeMailer service: ${e.message}`)
     }
