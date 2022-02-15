@@ -80,7 +80,8 @@ export class UserService {
 
   async changeUserData (userDto: UserDto) {
     try {
-      const object: TokenDto = await jwtDecode(userDto.access_token)
+      const token = userDto.access_token.split(' ')
+      const object: TokenDto = await jwtDecode(token[1])
       const user = await this.repository.get({_id: object._id})
       return await this.repository.updateRaw({ _id: user._id }, userDto, userDto)
     } catch (e) {
