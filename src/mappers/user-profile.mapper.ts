@@ -24,6 +24,7 @@ export class UserProfileMapper implements Mapper<Creator> {
         userDto.name = domain.name
         userDto.asset = domain.asset
         userDto.description = domain.description
+        userDto.logo = domain.logo
         userDto.links = domain.links
         userDto.notifications = domain.notifications
 
