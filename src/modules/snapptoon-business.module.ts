@@ -4,6 +4,7 @@ import { ConfigModule } from "../config";
 import { RegisterModule } from "./register.module";
 import { AuthModule } from './auth.module'
 import { UserModule } from './user.module'
+import { StaticDataModule } from './static-data.module'
 
 @Module({
     imports: [
@@ -13,7 +14,8 @@ import { UserModule } from './user.module'
         }),
         RegisterModule,
         AuthModule,
-        UserModule
+        UserModule,
+        StaticDataModule
     ],
     controllers: [],
     providers: []

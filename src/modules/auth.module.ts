@@ -28,6 +28,6 @@ import {
     LocalStrategy,
   ],
   exports: [AuthService],
-  controllers:[AuthController]
+  controllers: [AuthController]
 })
 export class AuthModule { }
