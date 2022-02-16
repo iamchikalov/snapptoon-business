@@ -80,10 +80,12 @@ export class UserService {
 
   async changeUserData (file, userDto: UserDto) {
     try {
+      console.log(userDto)
       const token = userDto.access_token.split(' ')
+      console.log(token)
       const object: TokenDto = await jwtDecode(token[1])
+      console.log(object)
       const user = await this.repository.get({_id: object._id})
-      userDto.logo = file.logo[0].buffer.toString('base64')
       return await this.repository.updateRaw({ _id: user._id }, userDto, userDto)
     } catch (e) {
       throw new HttpException('TOKEN WAS DAMAGED', HttpStatus.I_AM_A_TEAPOT)
