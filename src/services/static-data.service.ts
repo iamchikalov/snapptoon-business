@@ -12,4 +12,14 @@ export class StaticDataService {
   async getAllResponses() {
     return await this.responsesRepository.find({ type: 'TUTORIAL_LINK' }, {})
   }
+
+  async getLinks() {
+    const data = await this.responsesRepository.find({type: 'SOCIAL_LINK'}, {})
+    const links = {
+      twitter: data[0].link,
+      instagram: data[1].link
+    }
+    return links
+  }
 }
+
