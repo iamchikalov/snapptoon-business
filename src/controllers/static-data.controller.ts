@@ -11,4 +11,9 @@ export class StaticDataController {
   async staticData () {
     return await this.staticDataService.getAllResponses()
   }
+
+  @Get('/api/links')
+  async getLinks () {
+    return await this.staticDataService.getLinks()
+  }
 }
