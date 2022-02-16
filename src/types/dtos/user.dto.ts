@@ -12,7 +12,7 @@ export class UserDto extends BaseDto {
   @ApiProperty()
   newPassword?: string
   @ApiProperty()
-  logo: Buffer
+  logo: string
   @ApiProperty()
   confirmNewPassword?: string
   @ApiProperty()
