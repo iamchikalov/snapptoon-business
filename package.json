@@ -14,6 +14,7 @@
   "author": "Daniil Sinelnik <danya.sinelnik@mail.ru> && Egor Frolov <egorforlovecom@gmail.com> :)",
   "license": "ISC",
   "dependencies": {
+    "@nestjs/axios": "^0.0.5",
     "@nestjs/cli": "^8.1.8",
     "@nestjs/common": "^8.2.4",
     "@nestjs/core": "^8.2.4",
