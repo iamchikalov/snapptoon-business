@@ -3,7 +3,7 @@ import { CREATOR, dbAggregation, providerAggregation } from '../utils'
 import { Creator, CreatorSchema } from '@snapptoon/backend-common/src/data/models/Creator'
 import { UserService } from '../services'
 import { UserController } from '../controllers'
-import {EmailModule} from "./email.module";
+import { EmailModule } from "./email.module";
 
 @Module({
   imports: [

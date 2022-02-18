@@ -12,7 +12,7 @@ import { UserDto } from '../types/dtos'
 import { UserProfileMapper } from "../mappers/user-profile.mapper"
 import jwtDecode from 'jwt-decode'
 import { TokenDto } from '../types/dtos/token.dto'
-import {EmailService} from "./email.service";
+import { EmailService } from "./email.service";
 const bcrypt = require('bcrypt')
 
 @Injectable()

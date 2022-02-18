@@ -19,7 +19,6 @@ export class StaticDataService {
       twitter: data[0].link,
       instagram: data[1].link
     }
-
     return links
   }
 }
