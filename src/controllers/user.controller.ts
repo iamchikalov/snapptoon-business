@@ -1,8 +1,9 @@
 import { UserService } from '../services'
-import { Body, Controller, Get, Param, Patch, UploadedFiles, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Get, Param, Patch, Query, UploadedFiles, UseInterceptors } from '@nestjs/common'
 import { UserDto } from '../types/dtos'
 import { FileFieldsInterceptor } from '@nestjs/platform-express'
 import { ApiBody, ApiConsumes } from '@nestjs/swagger'
+import { QueryDto } from '../types/dtos/query.dto'
 
 @Controller()
 export class UserController {
@@ -54,4 +55,10 @@ export class UserController {
   ) {
     return await this.service.changeUserData(file, userDto)
   }
+
+  @Get('/api/v1/assets/:token')
+  async getAssets ( @Query() query: QueryDto, @Param('token') token: string ) {
+    return await this.service.getExternalAsset(query, token)
+  }
+
 }

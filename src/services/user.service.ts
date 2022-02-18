@@ -1,17 +1,21 @@
 import {
   changePasswordComparator,
   comparePasswords,
-  isValidEmail,
   CREATOR,
+  EXTERNAL_BEARER_TOKEN,
+  isValidEmail,
   SALT_ROUNDS
 } from '../utils'
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
+import { HttpService } from '@nestjs/axios'
 import { BaseRepository } from '@snapptoon/backend-common/src/repositories/base.repository'
 import { Creator } from '@snapptoon/backend-common/src/data/models/Creator'
 import { UserDto } from '../types/dtos'
-import { UserProfileMapper } from "../mappers/user-profile.mapper"
+import { UserProfileMapper } from '../mappers/user-profile.mapper'
 import jwtDecode from 'jwt-decode'
 import { TokenDto } from '../types/dtos/token.dto'
+import { QueryDto } from '../types/dtos/query.dto'
+import { urlComposer } from '../utils/external-request-composer'
 const bcrypt = require('bcrypt')
 
 @Injectable()
@@ -19,7 +23,12 @@ export class UserService {
   userProfileMapper = new UserProfileMapper()
   constructor (
     @Inject(CREATOR) private readonly repository: BaseRepository<Creator>,
+    private readonly httpService: HttpService
   ) {}
+
+  private header = {
+    'Authorization': EXTERNAL_BEARER_TOKEN
+  }
 
   async changeEmail (
     oldEmail: string,
@@ -80,13 +89,21 @@ export class UserService {
 
   async changeUserData (file, userDto: UserDto) {
     try {
-      console.log(userDto)
       const token = userDto.access_token.split(' ')
-      console.log(token)
       const object: TokenDto = await jwtDecode(token[1])
-      console.log(object)
       const user = await this.repository.get({_id: object._id})
       return await this.repository.updateRaw({ _id: user._id }, userDto, userDto)
+    } catch (e) {
+      throw new HttpException('TOKEN WAS DAMAGED', HttpStatus.I_AM_A_TEAPOT)
+    }
+  }
+
+  async getExternalAsset (query: QueryDto, token: string): Promise<any> {
+    let validToken: TokenDto
+    try {
+      validToken = await jwtDecode(token)
+      const url = urlComposer(validToken._id, query)
+      return this.httpService.get(url, { headers: this.header })
     } catch (e) {
       throw new HttpException('TOKEN WAS DAMAGED', HttpStatus.I_AM_A_TEAPOT)
     }
