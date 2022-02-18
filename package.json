@@ -27,6 +27,7 @@
     "@snapptoon/backend-common": "2.1.29",
     "@typegoose/typegoose": "^9.5.0",
     "@types/node": "^16.0.0",
+    "axios": "^0.26.0",
     "bcrypt": "^5.0.1",
     "jwt-decode": "^3.1.2",
     "mongoose": "^6.1.6",
