@@ -7,7 +7,6 @@ import {
   SALT_ROUNDS
 } from '../utils'
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
-import { HttpService } from '@nestjs/axios'
 import { BaseRepository } from '@snapptoon/backend-common/src/repositories/base.repository'
 import { Creator } from '@snapptoon/backend-common/src/data/models/Creator'
 import { UserDto } from '../types/dtos'
@@ -16,6 +15,7 @@ import jwtDecode from 'jwt-decode'
 import { TokenDto } from '../types/dtos/token.dto'
 import { QueryDto } from '../types/dtos/query.dto'
 import { urlComposer } from '../utils/external-request-composer'
+import axios from 'axios'
 const bcrypt = require('bcrypt')
 
 @Injectable()
@@ -23,10 +23,11 @@ export class UserService {
   userProfileMapper = new UserProfileMapper()
   constructor (
     @Inject(CREATOR) private readonly repository: BaseRepository<Creator>,
-    private readonly httpService: HttpService
   ) {}
 
   private header = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
     'Authorization': EXTERNAL_BEARER_TOKEN
   }
 
@@ -98,14 +99,18 @@ export class UserService {
     }
   }
 
-  async getExternalAsset (query: QueryDto, token: string): Promise<any> {
+  async getExternalAsset (query: QueryDto, token: string) {
+    if (query.sort == 'uid' || query.sort == '-uid'){
+      throw new HttpException('CANNOT SORT BY OBJECT ID', HttpStatus.BAD_REQUEST)
+    }
     let validToken: TokenDto
     try {
       validToken = await jwtDecode(token)
       const url = urlComposer(validToken._id, query)
-      return this.httpService.get(url, { headers: this.header })
+      const response = await axios.get(url, {headers: this.header})
+      return response.data
     } catch (e) {
-      throw new HttpException('TOKEN WAS DAMAGED', HttpStatus.I_AM_A_TEAPOT)
+      throw new HttpException('SOMETHING WENT WRONG', HttpStatus.I_AM_A_TEAPOT)
     }
   }
 
