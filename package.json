@@ -14,6 +14,7 @@
   "author": "Daniil Sinelnik <danya.sinelnik@mail.ru> && Egor Frolov <egorforlovecom@gmail.com> :)",
   "license": "ISC",
   "dependencies": {
+    "@nestjs/axios": "^0.0.5",
     "@nestjs/cli": "^8.1.8",
     "@nestjs/common": "^8.2.4",
     "@nestjs/core": "^8.2.4",
@@ -26,6 +27,7 @@
     "@snapptoon/backend-common": "2.1.29",
     "@typegoose/typegoose": "^9.5.0",
     "@types/node": "^16.0.0",
+    "axios": "^0.26.0",
     "bcrypt": "^5.0.1",
     "jwt-decode": "^3.1.2",
     "mongoose": "^6.1.6",

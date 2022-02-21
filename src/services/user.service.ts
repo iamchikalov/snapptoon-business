@@ -1,18 +1,22 @@
 import {
   changePasswordComparator,
   comparePasswords,
-  isValidEmail,
   CREATOR,
+  EXTERNAL_BEARER_TOKEN,
+  isValidEmail,
   SALT_ROUNDS
 } from '../utils'
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { BaseRepository } from '@snapptoon/backend-common/src/repositories/base.repository'
 import { Creator } from '@snapptoon/backend-common/src/data/models/Creator'
 import { UserDto } from '../types/dtos'
-import { UserProfileMapper } from "../mappers/user-profile.mapper"
+import { UserProfileMapper } from '../mappers/user-profile.mapper'
 import jwtDecode from 'jwt-decode'
 import { TokenDto } from '../types/dtos/token.dto'
 import { EmailService } from "./email.service";
+import { QueryDto } from '../types/dtos/query.dto'
+import { urlComposer } from '../utils/external-request-composer'
+import axios from 'axios'
 const bcrypt = require('bcrypt')
 
 @Injectable()
@@ -23,6 +27,12 @@ export class UserService {
     private readonly emailService: EmailService
   ) {}
 
+
+  private header = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': EXTERNAL_BEARER_TOKEN
+  }
 
   async changeEmail (
     oldEmail: string,
@@ -88,15 +98,27 @@ export class UserService {
 
   async changeUserData (file, userDto: UserDto) {
     try {
-      console.log(userDto)
       const token = userDto.access_token.split(' ')
-      console.log(token)
       const object: TokenDto = await jwtDecode(token[1])
-      console.log(object)
       const user = await this.repository.get({_id: object._id})
       return await this.repository.updateRaw({ _id: user._id }, userDto, userDto)
     } catch (e) {
       throw new HttpException('TOKEN WAS DAMAGED', HttpStatus.I_AM_A_TEAPOT)
+    }
+  }
+
+  async getExternalAsset (query: QueryDto, token: string) {
+    if (query.sort == 'uid' || query.sort == '-uid'){
+      throw new HttpException('CANNOT SORT BY OBJECT ID', HttpStatus.BAD_REQUEST)
+    }
+    let validToken: TokenDto
+    try {
+      validToken = await jwtDecode(token)
+      const url = urlComposer(validToken._id, query)
+      const response = await axios.get(url, {headers: this.header})
+      return response.data
+    } catch (e) {
+      throw new HttpException('SOMETHING WENT WRONG', HttpStatus.I_AM_A_TEAPOT)
     }
   }
 
