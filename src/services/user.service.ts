@@ -13,6 +13,7 @@ import { UserDto } from '../types/dtos'
 import { UserProfileMapper } from '../mappers/user-profile.mapper'
 import jwtDecode from 'jwt-decode'
 import { TokenDto } from '../types/dtos/token.dto'
+import { EmailService } from "./email.service";
 import { QueryDto } from '../types/dtos/query.dto'
 import { urlComposer } from '../utils/external-request-composer'
 import axios from 'axios'
@@ -23,7 +24,9 @@ export class UserService {
   userProfileMapper = new UserProfileMapper()
   constructor (
     @Inject(CREATOR) private readonly repository: BaseRepository<Creator>,
+    private readonly emailService: EmailService
   ) {}
+
 
   private header = {
     'Content-Type': 'application/json',
@@ -33,7 +36,8 @@ export class UserService {
 
   async changeEmail (
     oldEmail: string,
-    newEmail: string
+    newEmail: string,
+    verificationLink: string
   ) {
 
     if (!isValidEmail(newEmail)) {
@@ -44,11 +48,15 @@ export class UserService {
       throw new HttpException('EMAIL DOES NOT EXIST', HttpStatus.NOT_FOUND)
     }
 
-    if (await this.existByEmail(newEmail)) {
+    if (!await this.existByEmail(newEmail)) {
       throw new HttpException('THIS EMAIL ALREADY IN USE', HttpStatus.FORBIDDEN)
     }
+    await this.repository.update({ email: oldEmail }, { email: newEmail })
+    const newUser = await this.repository.get({email: newEmail})
 
-    return await this.repository.update({ email: oldEmail }, { email: newEmail })
+    await this.repository.update({ email: newUser.email }, { isVerified: false })
+    await this.emailService.sendVerificationEmail(newUser, verificationLink)
+    return newUser
   }
 
   async changePassword (data: UserDto) {

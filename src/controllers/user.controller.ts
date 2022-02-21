@@ -3,6 +3,7 @@ import { Body, Controller, Get, Param, Patch, Query, UploadedFiles, UseIntercept
 import { UserDto } from '../types/dtos'
 import { FileFieldsInterceptor } from '@nestjs/platform-express'
 import { ApiBody, ApiConsumes } from '@nestjs/swagger'
+import { VERIFY_URL } from "../utils";
 import { QueryDto } from '../types/dtos/query.dto'
 
 @Controller()
@@ -13,7 +14,8 @@ export class UserController {
 
   @Patch('/api/change-email')
   async enterNewEmail (@Body() data: UserDto) {
-    return await this.service.changeEmail(data.email, data.newEmail)
+    const verificationLink = `${VERIFY_URL}/verify-account/`
+    return await this.service.changeEmail(data.email, data.newEmail, verificationLink)
   }
 
   @Patch('/api/change-password')
