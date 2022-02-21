@@ -3,12 +3,12 @@ import { ApiProperty } from '@nestjs/swagger'
 export class QueryDto {
   @ApiProperty()
   author: string
-  @ApiProperty()
+  @ApiProperty({required: false})
   category?: string
-  @ApiProperty()
+  @ApiProperty({required: false})
   page?: number
-  @ApiProperty()
+  @ApiProperty({required: false})
   perPage?: number
-  @ApiProperty()
+  @ApiProperty({required: false})
   sort?: string
 }
