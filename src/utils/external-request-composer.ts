@@ -26,6 +26,11 @@ export function urlComposer(id: string, query: QueryDto) {
     query.category != undefined
   ) {
     return`https://api-crafting.stickers-dev.talkingheads.ai/v1/assets?author=${id}&category=${query.category}`
+  } else if (
+    query.author != undefined &&
+    query.sort != undefined
+  ) {
+    return`https://api-crafting.stickers-dev.talkingheads.ai/v1/assets?author=${id}&sort=${query.sort}`
   } else {
     return`https://api-crafting.stickers-dev.talkingheads.ai/v1/assets?author=${id}`
   }
