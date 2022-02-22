@@ -42,3 +42,19 @@ deploy_stage:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - ssh lipsar@5.8.37.33 "echo ${CI_JOB_TOKEN}; docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} registry.gitlab.com; cd snaptoon-deployment; ls; docker-compose pull api; docker-compose stop -t 1 api; docker-compose up -d api"
+
+deploy_production:
+  stage: deploy
+  only:
+    - tags
+  before_script:
+    - apt-get update -qq
+    - apt-get install -qq git
+    # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - ssh ubuntu@3.71.226.108 "echo ${CI_JOB_TOKEN}; docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} registry.gitlab.com; cd snaptoon-deployment; ls; docker-compose -f docker-compose.prod.yml pull api; docker-compose -f docker-compose.prod.yml stop  -t 1 api; docker-compose -f docker-compose.prod.yml up -d api"
